@@ -101,5 +101,6 @@ async function start() {
  */
 pm2.connect(() => {
     console.log('pm2-auto-pull module connected to pm2');
+    debug('debug enabled');
     start();
 });
