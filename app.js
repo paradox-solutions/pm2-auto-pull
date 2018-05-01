@@ -6,6 +6,7 @@ const pm2 = require('pm2');
 const requestp = require('request-promise');
 const debug = require('debug')('pm2-auto-pull');
 const Promise = require('bluebird');
+const _ = require('lodash');
 
 // promisified
 const pm2List = Promise.promisify(pm2.list, {context: pm2});
@@ -15,9 +16,36 @@ const pm2PullReload = Promise.promisify(pm2.pullAndReload, {context: pm2});
 const conf = pmx.initModule();
 
 async function notify(proc) {
-    console.info(proc);
+    if(!conf.notify) {
+        return true;
+    }
 
-    return false;
+    let checkPort = _.get(proc, 'pm2_env.env.' + conf.notify_env_port) || conf.notify_port;
+
+    if(!checkPort) {
+        debug('Notify port not found');
+        return true;
+    }
+
+    let checkAddr = 'http://0.0.0.0:' + checkPort + conf.notify_path;
+
+    debug('Notify url: %s', checkAddr);
+
+    try {
+        let response = await requestp({
+            method: 'get',
+            url: checkAddr,
+            qs: {},
+            json: true,
+            timeout: conf.notify_timeout
+        });
+
+        return !!response.ready;
+
+    } catch(err) {
+        console.error("Notified and returned error: " + err.message);
+        return true;
+    }
 }
 
 /**
@@ -33,7 +61,7 @@ async function pullProc(proc) {
     }
 
     // Ignore pm2 without versioning
-    if(!proc.pm2_env || !proc.pm2_env.versioning) {
+    if(!_.get(proc, 'pm2_env.versioning')) {
         debug('Ignored not versioned process: ' + proc.name);
         return;
     }
@@ -41,7 +69,6 @@ async function pullProc(proc) {
     debug('Check, pull and reload: %s', proc.name);
 
     // Check
-    // TODO: Connect, notify and wait response
     let ready = await notify(proc);
 
     if(!ready) {

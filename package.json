@@ -9,13 +9,19 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "debug": "*",
+    "lodash": "^4.17.10",
     "pm2": "*",
     "pmx": "latest",
     "request": "^2.85.0",
     "request-promise": "^4.2.2"
   },
   "config": {
-    "interval": 30000
+    "interval": 30000,
+    "notify": true,
+    "notify_path": "/pm2/notify",
+    "notify_env_port": "CHECK_PORT",
+    "notify_port": false,
+    "notify_timeout": 3000
   },
   "apps": [
     {
