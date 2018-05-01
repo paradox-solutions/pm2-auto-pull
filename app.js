@@ -24,6 +24,12 @@ async function notify(proc) {
  * @param proc
  */
 async function pullProc(proc) {
+    // Ignore pm2 modules
+    if(proc.name.startsWith('pm2-')) {
+        return;
+    }
+
+    // Ignore pm2 without versioning
     if(!proc.pm2_env || proc.pm2_env.versioning) {
         return;
     }
