@@ -1,10 +1,10 @@
 // process.env.MODULE_DEBUG = process.NODE_ENV !== 'production';
+process.env.DEBUG = 'pm2-auto-pull:*';
 
 const pmx = require('pmx');
 const pm2 = require('pm2');
-const pkg = require('./package.json');
 const requestp = require('request-promise');
-const debug = require('debug')(pkg.name);
+const debug = require('debug')('pm2-auto-pull');
 const Promise = require('bluebird');
 
 // promisified
@@ -26,11 +26,13 @@ async function notify(proc) {
 async function pullProc(proc) {
     // Ignore pm2 modules
     if(proc.name.startsWith('pm2-')) {
+        debug('Ignored module: ' + proc.name);
         return;
     }
 
     // Ignore pm2 without versioning
     if(!proc.pm2_env || proc.pm2_env.versioning) {
+        debug('Ignored not versioned process: ' + proc.name);
         return;
     }
 
