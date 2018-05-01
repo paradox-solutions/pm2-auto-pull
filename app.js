@@ -36,6 +36,7 @@ async function notify(proc) {
 
     } catch(err) {
         console.error("Notified and returned error: " + err.message);
+        console.info(proc);
         return true;
     }
 }
@@ -90,8 +91,7 @@ async function pullProc(proc) {
         }
 
     } catch(err) {
-        debug('App "%s" already at latest version (msg: %s)', proc.name, err.message);
-        console.error(err);
+        debug('App "%s" already at latest version', proc.name);
     }
 
 }
