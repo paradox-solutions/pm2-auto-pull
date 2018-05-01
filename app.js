@@ -24,6 +24,11 @@ async function notify(proc) {
     try {
         debug('Notify process %s with event %s', proc.name, conf.notify_event);
 
+        pm2.trigger(proc.name, conf.notify_event, {}, (err, res) => {
+            if(err) console.error(err);
+            else console.info(res);
+        });
+
         let result = await pm2Trigger(proc.name, conf.notify_event, {});
 
         if(!('ready' in result)) {
