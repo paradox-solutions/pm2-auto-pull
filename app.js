@@ -1,5 +1,5 @@
 // process.env.MODULE_DEBUG = process.NODE_ENV !== 'production';
-process.env.DEBUG = 'pm2-auto-pull*';
+// process.env.DEBUG = 'pm2-auto-pull*';
 
 const pmx = require('pmx');
 const pm2 = require('pm2');
@@ -24,12 +24,7 @@ async function notify(proc) {
     try {
         debug('Notify process %s with event %s', proc.name, conf.notify_event);
 
-
         let response = await pm2Trigger(proc.name, conf.notify_event, null);
-        console.info(response[0]);
-        console.info(response[0].data);
-        console.info(response[0].data.return);
-
         let result = response[0].data.return;
 
         if(!('ready' in result)) {
