@@ -11,6 +11,7 @@ const _ = require('lodash');
 // promisified
 const pm2List = Promise.promisify(pm2.list, {context: pm2});
 const pm2PullReload = Promise.promisify(pm2.pullAndReload, {context: pm2});
+const pm2Trigger = Promise.promisify(pm2.trigger, {context: pm2});
 
 // config
 const conf = pmx.initModule();
@@ -20,35 +21,18 @@ async function notify(proc) {
         return true;
     }
 
-    let checkPort = conf.notify_port || _.get(proc, 'pm2_env.env.' + conf.notify_env_port);
-
-    if(!checkPort) {
-        debug('Notify port not found');
-        return true;
-    }
-
-    let checkAddr = 'http://127.0.0.1:' + checkPort + conf.notify_path;
-
-    debug('Notify url: %s', checkAddr);
-
     try {
-        let response = await requestp({
-            method: 'get',
-            url: checkAddr,
-            qs: {},
-            json: true,
-            timeout: conf.notify_timeout
-        });
+        debug('Notify process %s with event %s', proc.name, conf.notify_event);
 
-        console.info(response);
+        let result = await pm2Trigger(proc.name, conf.notify_event, {});
 
-        let ready = response.ready;
-
-        if(ready) {
-            console.info("Process is ready: " + proc.name);
+        if(!('ready' in result)) {
+            console.error("Notified and returned a non correct result");
+            console.error(result);
+            return true;
         }
 
-        return ready;
+        return result.ready;
 
     } catch(err) {
         console.error("Notified and returned error: " + err.message);

@@ -18,10 +18,7 @@
   "config": {
     "interval": 30000,
     "notify": true,
-    "notify_path": "/pm2/notify",
-    "notify_env_port": "CHECK_PORT",
-    "notify_port": false,
-    "notify_timeout": 3000
+    "notify_event": "process:close"
   },
   "apps": [
     {
