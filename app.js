@@ -82,6 +82,7 @@ async function start() {
 
     } catch(err) {
         console.error("Auto pull check error: " + err.message);
+        console.error(err);
     }
 
     setTimeout(start, Math.max(conf.interval, 1000));
