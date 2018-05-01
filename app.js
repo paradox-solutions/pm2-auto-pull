@@ -8,8 +8,8 @@ const debug = require('debug')(pkg.name);
 const Promise = require('bluebird');
 
 // promisified
-const pm2List = Promise.promisify(pm2.list);
-const pm2PullReload = Promise.promisify(pm2.pullAndReload);
+const pm2List = Promise.promisify(pm2.list, {context: pm2});
+const pm2PullReload = Promise.promisify(pm2.pullAndReload, {context: pm2});
 
 // config
 const conf = pmx.initModule();
