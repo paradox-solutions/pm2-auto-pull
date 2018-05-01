@@ -26,11 +26,11 @@ async function notify(proc) {
 
 
         let response = await pm2Trigger(proc.name, conf.notify_event, null);
-        console.info(response);
-        console.info(response.data);
-        console.info(response.data.return);
-        let result = response.data.return;
+        console.info(response[0]);
+        console.info(response[0].data);
+        console.info(response[0].data.return);
 
+        let result = response[0].data.return;
 
         if(!('ready' in result)) {
             console.error("Notified and returned a non correct result");
