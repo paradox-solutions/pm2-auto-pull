@@ -87,7 +87,7 @@ async function pullProc(proc) {
 
             else {
                 // Backward compatibility
-                console.log('App "%s" succesfully pulled');
+                console.log('App "%s" succesfully pulled', proc.name);
             }
         }
 
