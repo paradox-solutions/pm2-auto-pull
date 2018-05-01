@@ -32,6 +32,7 @@ async function pullProc(proc) {
 
     // Check
     // TODO: Connect, notify and wait response
+    await notify(proc);
 
     // Pull
     try {
