@@ -1,16 +1,21 @@
 {
   "name": "pm2-auto-pull",
-  "version": "1.16.0",
+  "version": "2.00.0",
   "description": "PM2 module to auto pull applications when there is an update",
   "main": "app",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "pmx": "latest",
+    "bluebird": "^3.5.1",
+    "debug": "*",
     "pm2": "*",
-    "async": "*",
-    "debug": "*"
+    "pmx": "latest",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
+  },
+  "config": {
+    "interval": 30000
   },
   "apps": [
     {
