@@ -40,7 +40,15 @@ async function notify(proc) {
             timeout: conf.notify_timeout
         });
 
-        return !!response.ready;
+        console.info(response);
+
+        let ready = response.ready;
+
+        if(ready) {
+            console.info("Process is ready: " + proc.name);
+        }
+
+        return ready;
 
     } catch(err) {
         console.error("Notified and returned error: " + err.message);
