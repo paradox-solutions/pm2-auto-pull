@@ -11,9 +11,7 @@
     "debug": "*",
     "lodash": "^4.17.10",
     "pm2": "*",
-    "pmx": "latest",
-    "request": "^2.85.0",
-    "request-promise": "^4.2.2"
+    "pmx": "latest"
   },
   "config": {
     "interval": 30000,

@@ -1,9 +1,8 @@
 // process.env.MODULE_DEBUG = process.NODE_ENV !== 'production';
-// process.env.DEBUG = 'pm2-auto-pull*';
+process.env.DEBUG = 'pm2-auto-pull*';
 
 const pmx = require('pmx');
 const pm2 = require('pm2');
-const requestp = require('request-promise');
 const debug = require('debug')('pm2-auto-pull');
 const Promise = require('bluebird');
 const _ = require('lodash');

@@ -14,6 +14,7 @@ $ pm2 uninstall pm2-auto-pull
 ## Configure auto pull interval
 
 $ pm2 set pm2-auto-pull:interval 60000
+$ pm2 set pm2-auto-pull:notify true
 ```
 
 # License
