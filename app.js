@@ -11,20 +11,10 @@ const _ = require('lodash');
 // promisified
 const pm2List = Promise.promisify(pm2.list, {context: pm2});
 const pm2PullReload = Promise.promisify(pm2.pullAndReload, {context: pm2});
+const pm2Trigger = Promise.promisify(pm2.trigger, {context: pm2});
 
 // config
 const conf = pmx.initModule();
-
-function pm2Trigger(id, event, params) {
-    return new Promise((resolve, reject) => {
-        pm2.trigger(id, event, params, (err, res) => {
-            if(err) reject(err);
-            else {
-                resolve(res);
-            }
-        });
-    });
-}
 
 async function notify(proc) {
     if(!conf.notify) {
@@ -34,7 +24,8 @@ async function notify(proc) {
     try {
         debug('Notify process %s with event %s', proc.name, conf.notify_event);
 
-        let response = await pm2Trigger(proc.name, conf.notify_event, {});
+
+        let response = await pm2Trigger(proc.name, conf.notify_event, null);
         console.info(response);
         console.info(response.data);
         console.info(response.data.return);
