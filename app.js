@@ -16,6 +16,8 @@ const conf = pmx.initModule();
 
 async function notify(proc) {
     console.info(proc);
+
+    return false;
 }
 
 /**
@@ -31,10 +33,8 @@ async function pullProc(proc) {
     }
 
     // Ignore pm2 without versioning
-    if(!proc.pm2_env || proc.pm2_env.versioning) {
+    if(!proc.pm2_env || !proc.pm2_env.versioning) {
         debug('Ignored not versioned process: ' + proc.name);
-        console.info(proc);
-
         return;
     }
 
@@ -42,7 +42,12 @@ async function pullProc(proc) {
 
     // Check
     // TODO: Connect, notify and wait response
-    await notify(proc);
+    let ready = await notify(proc);
+
+    if(!ready) {
+        console.info("Process is not ready for update: " + proc.name);
+        return;
+    }
 
     // Pull
     try {
