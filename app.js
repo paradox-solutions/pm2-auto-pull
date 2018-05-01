@@ -1,5 +1,5 @@
 // process.env.MODULE_DEBUG = process.NODE_ENV !== 'production';
-process.env.DEBUG = '*';
+process.env.DEBUG = 'pm2*';
 
 const pmx = require('pmx');
 const pm2 = require('pm2');
@@ -33,6 +33,8 @@ async function pullProc(proc) {
     // Ignore pm2 without versioning
     if(!proc.pm2_env || proc.pm2_env.versioning) {
         debug('Ignored not versioned process: ' + proc.name);
+        console.info(proc);
+
         return;
     }
 
