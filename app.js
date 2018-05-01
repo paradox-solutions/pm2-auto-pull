@@ -20,7 +20,7 @@ async function notify(proc) {
         return true;
     }
 
-    let checkPort = _.get(proc, 'pm2_env.env.' + conf.notify_env_port) || conf.notify_port;
+    let checkPort = conf.notify_port || _.get(proc, 'pm2_env.env.' + conf.notify_env_port);
 
     if(!checkPort) {
         debug('Notify port not found');
@@ -107,6 +107,7 @@ async function pullProc(proc) {
 
     } catch(err) {
         debug('App "%s" already at latest version (msg: %s)', proc.name, err.message);
+        console.error(err);
     }
 
 }
