@@ -17,7 +17,7 @@
   },
   "config": {
     "interval": 30000,
-    "notify": true,
+    "notify": false,
     "notify_event": "process:close"
   },
   "apps": [
