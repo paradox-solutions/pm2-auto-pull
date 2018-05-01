@@ -27,7 +27,7 @@ async function notify(proc) {
         return true;
     }
 
-    let checkAddr = 'http://0.0.0.0:' + checkPort + conf.notify_path;
+    let checkAddr = 'http://127.0.0.1:' + checkPort + conf.notify_path;
 
     debug('Notify url: %s', checkAddr);
 
