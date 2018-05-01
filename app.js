@@ -1,5 +1,5 @@
 // process.env.MODULE_DEBUG = process.NODE_ENV !== 'production';
-process.env.DEBUG = 'pm2-auto-pull:*';
+process.env.DEBUG = '*';
 
 const pmx = require('pmx');
 const pm2 = require('pm2');
